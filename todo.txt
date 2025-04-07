@@ -1,0 +1,4 @@
+1. Add DB
+2. Util general function on basis of type checking 
+3. Error messages
+4. Logs

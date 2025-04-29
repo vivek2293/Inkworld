@@ -86,61 +86,61 @@ repos:
     rev: v1.0.0-rc.1
     hooks:
     #
-    # Go Build
+    # Go Build - It compiles the Go source code and its dependencies, checking for syntax errors and ensuring all referenced packages and symbols exist, but it doesn't run tests or static analysis.
     #
     -   id: go-build-mod
     # -   id: go-build-pkg
     # -   id: go-build-repo-mod
     # -   id: go-build-repo-pkg
     #
-    # Go Mod Tidy
+    # Go Mod Tidy - go mod tidy removes unused dependencies from go.mod and go.sum and adds any missing ones required by the code.
     #
     -   id: go-mod-tidy
     # -   id: go-mod-tidy-repo
     #
-    # Go Test
+    # Go Test - It runs the tests in the current package and all its sub-packages, ensuring that the code behaves as expected.
     #
-    -   id: go-test-mod
-    # -   id: go-test-pkg
+    # -   id: go-test-mod
+    -   id: go-test-pkg
     # -   id: go-test-repo-mod
     # -   id: go-test-repo-pkg
     #
-    # Go Vet
+    # Go Vet - It performs static analysis on the code to identify potential issues, such as unreachable code, misused printf-style functions, and other common mistakes.
     #
-    # -   id: go-vet
+    -   id: go-vet
     # -   id: go-vet-mod
     # -   id: go-vet-pkg
     # -   id: go-vet-repo-mod
     # -   id: go-vet-repo-pkg
     #
-    # Revive
+    # Revive - It is a fast, configurable, extensible, and beautiful linter for Go. It is a drop-in replacement for golint.
     #
-    # -   id: go-revive
+    -   id: go-revive
     # -   id: go-revive-mod
     # -   id: go-revive-repo-mod
     #
-    # GoSec
+    # GoSec - It is a security scanner for Go code. It detects potential vulnerabilities in the code, such as hardcoded credentials, SQL injection risks, and other security issues.
     #
-    -   id: go-sec-mod
-    # -   id: go-sec-pkg
+    # -   id: go-sec-mod
+    -   id: go-sec-pkg
     # -   id: go-sec-repo-mod
     # -   id: go-sec-repo-pkg
     #
-    # StaticCheck
+    # StaticCheck - It is a static analysis tool for Go code. It detects potential bugs, performance issues, and other code quality problems.
     #
     -   id: go-staticcheck-mod
     # -   id: go-staticcheck-pkg
     # -   id: go-staticcheck-repo-mod
     # -   id: go-staticcheck-repo-pkg
     #
-    # StructSlop
+    # StructSlop - It is a tool that checks for unnecessary struct fields in Go code. It helps to identify and remove unused fields, improving code readability and maintainability.
     #
     # -   id: go-structslop-mod
     # -   id: go-structslop-pkg
     # -   id: go-structslop-repo-mod
     # -   id: go-structslop-repo-pkg
     #
-    # Formatters
+    # Formatters - These tools format Go code according to specific style guidelines.
     #
     # -   id: go-fmt
     # -   id: go-fmt-repo
@@ -154,7 +154,7 @@ repos:
     # Style Checkers
     #
     # -   id: go-lint
-    -   id: go-critic
+    # -   id: go-critic
     #
     # GolangCI-Lint
     # - Fast Multi-Linter
@@ -163,7 +163,7 @@ repos:
     # - https://github.com/golangci/golangci-lint
     #
     # -   id: golangci-lint
-    -   id: golangci-lint-mod
+    # -   id: golangci-lint-mod
     # -   id: golangci-lint-pkg
     # -   id: golangci-lint-repo-mod
     # -   id: golangci-lint-repo-pkg

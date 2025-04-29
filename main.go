@@ -29,12 +29,14 @@ func initEnv(ctx context.Context) {
 		panic(err)
 	}
 
-	currentMode := env.GetEnv(constants.GetCurrentModeKey)
+	currentMode := env.GetEnv(constants.GetEnvModeKey)
 
 	if currentMode == constants.Production {
 		err = env.InitEnv(constants.ProdENVPath)
-	} else {
+	} else if currentMode == constants.Development {
 		err = env.InitEnv(constants.DevENVPath)
+	} else {
+		err = fmt.Errorf("unknown environment mode: %s", currentMode)
 	}
 
 	if err != nil {
@@ -51,12 +53,12 @@ func initTime(ctx context.Context) {
 
 func initDB(ctx context.Context) {
 	configSettings := database.DbConfig{
-		DriverName:            env.GetEnv("DB_DRIVER_NAME"),
-		URL:                   env.GetEnv("DB_URL"),
-		MaxOpenConnections:    env.GetEnvInt("DB_MAX_OPEN_CONNECTIONS"),
-		MaxIdleConnections:    env.GetEnvInt("DB_MAX_IDLE_CONNECTIONS"),
-		ConnectionMaxLifeTime: time.Duration(env.GetEnvInt("DB_CONNECTION_MAX_LIFE_TIME")) * time.Second,
-		ConnectionMaxIdleTime: time.Duration(env.GetEnvInt("DB_CONNECTION_MAX_IDLE_TIME")) * time.Second,
+		DriverName:            env.GetEnv(constants.DriverName),
+		URL:                   env.GetEnv(constants.URL),
+		MaxOpenConnections:    env.GetEnvInt(constants.MaxOpenConnections),
+		MaxIdleConnections:    env.GetEnvInt(constants.MaxIdleConnections),
+		ConnectionMaxLifeTime: time.Duration(env.GetEnvInt(constants.ConnectionMaxLifeTime)) * time.Second,
+		ConnectionMaxIdleTime: time.Duration(env.GetEnvInt(constants.ConnectionMaxIdleTime)) * time.Second,
 	}
 
 	err := database.InitDatabase(configSettings)

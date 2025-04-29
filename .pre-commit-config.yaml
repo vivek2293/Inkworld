@@ -100,8 +100,8 @@ repos:
     #
     # Go Test - It runs the tests in the current package and all its sub-packages, ensuring that the code behaves as expected.
     #
-    # -   id: go-test-mod
-    -   id: go-test-pkg
+    -   id: go-test-mod
+    # -   id: go-test-pkg
     # -   id: go-test-repo-mod
     # -   id: go-test-repo-pkg
     #
@@ -121,8 +121,8 @@ repos:
     #
     # GoSec - It is a security scanner for Go code. It detects potential vulnerabilities in the code, such as hardcoded credentials, SQL injection risks, and other security issues.
     #
-    # -   id: go-sec-mod
-    -   id: go-sec-pkg
+    -   id: go-sec-mod
+    # -   id: go-sec-pkg
     # -   id: go-sec-repo-mod
     # -   id: go-sec-repo-pkg
     #

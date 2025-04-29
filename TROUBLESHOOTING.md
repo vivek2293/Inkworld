@@ -1,5 +1,9 @@
 # Pre-Commit Hooks Troubleshooting
-This section contains common issues and their solutions for the pre-commit hook.
+This section contains common issues and their solutions for the pre-commit hook. You can also run pre-commit commands to help diagnose issues manually in `bash` using the following commands:
+
+```bash
+pre-commit run --all-files
+```
 
 1. Go-imports
    - **Issue**: The `go-imports` hook fails with an error message about import order or formatting.

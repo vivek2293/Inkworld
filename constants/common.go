@@ -4,10 +4,8 @@ package constants
 const (
 	RouterPort = "8080"
 
-	DefaultLocation   = "Asia/Kolkata"
-	GetCurrentModeKey = "CurrentMode"
-	GenENVPath        = ".env"
-	ProdENVPath       = ".env.prod"
-	DevENVPath        = ".env.dev"
-	Production        = "PROD"
+	DefaultLocation = "Asia/Kolkata"
+
+	Development = "DEV"
+	Production  = "PROD"
 )

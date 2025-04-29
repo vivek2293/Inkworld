@@ -1,4 +1,4 @@
-1. Add DB
-2. Util general function on basis of type checking 
-3. Error messages
-4. Logs
+1. Logger
+2. Prometheus Integration
+3. Data Access Object Layer Creation
+4. 

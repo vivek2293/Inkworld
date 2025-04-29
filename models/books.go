@@ -1,4 +1,4 @@
-package modelsv1
+package models
 
 // BookDetailsResponse represents the response structure for book details.
 type BookDetailsResponse struct {

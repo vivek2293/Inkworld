@@ -1,20 +1,20 @@
 package businessutils
 
 import (
-	modelsv1 "github.com/vivek2293/Inkworld/models/v1"
+	models "github.com/vivek2293/Inkworld/models"
 	"github.com/vivek2293/Inkworld/store"
 )
 
 // SetBookListResponse converts a list of book objects to the response format.
-func SetBookListResponse(bookList *[]store.Book) *[]modelsv1.BookDetailsResponse {
+func SetBookListResponse(bookList *[]store.Book) *[]models.BookDetailsResponse {
 	if bookList == nil {
 		return nil
 	}
 
-	convertedBookList := []modelsv1.BookDetailsResponse{}
+	convertedBookList := []models.BookDetailsResponse{}
 
 	for _, book := range *bookList {
-		bookDetails := modelsv1.BookDetailsResponse{}
+		bookDetails := models.BookDetailsResponse{}
 
 		bookDetails.ID = book.ID
 		bookDetails.Author = book.Author
@@ -29,11 +29,11 @@ func SetBookListResponse(bookList *[]store.Book) *[]modelsv1.BookDetailsResponse
 }
 
 // SetBookResponse converts a single book object to the response format.
-func SetBookResponse(book *store.Book) *modelsv1.BookDetailsResponse {
+func SetBookResponse(book *store.Book) *models.BookDetailsResponse {
 	if book == nil {
 		return nil
 	}
-	convertedBook := modelsv1.BookDetailsResponse{}
+	convertedBook := models.BookDetailsResponse{}
 
 	convertedBook.ID = book.ID
 	convertedBook.Author = book.Author

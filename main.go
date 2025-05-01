@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 
 	"github.com/vivek2293/Inkworld/constants"
 	"github.com/vivek2293/Inkworld/database"
@@ -12,8 +13,6 @@ import (
 	"github.com/vivek2293/Inkworld/utils/env"
 	"github.com/vivek2293/Inkworld/utils/logger"
 	timeutils "github.com/vivek2293/Inkworld/utils/time"
-
-	"go.uber.org/zap/zapcore"
 )
 
 func main() {

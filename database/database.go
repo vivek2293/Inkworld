@@ -58,8 +58,7 @@ func InitDatabase(config DbConfig) error {
 // GetDbClient returns the singleton instance of the database client.
 func GetDbClient() *dbClient {
 	if dbClientInstance == nil {
-		logger.Error("Database client is not initialized")
-		panic("Database client is not initialized")
+		logger.Panic("Database client is not initialized")
 	}
 	return dbClientInstance
 }

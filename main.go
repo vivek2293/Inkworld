@@ -72,8 +72,7 @@ func initLogger() {
 func initTime() {
 	err := timeutils.InitLocation(constants.DefaultLocation)
 	if err != nil {
-		logger.Error("Error initializing time location", zap.Error(err))
-		panic(err)
+		logger.Panic("Error initializing time location", zap.Error(err))
 	}
 
 	logger.Info("Time location initialized successfully")
@@ -91,8 +90,7 @@ func initDB() {
 
 	err := database.InitDatabase(configSettings)
 	if err != nil {
-		logger.Error("Error initializing database", zap.Error(err))
-		panic(err)
+		logger.Panic("Error initializing database", zap.Error(err))
 	}
 
 	logger.Info("Database initialized successfully")
@@ -101,12 +99,10 @@ func initDB() {
 func initRouter() {
 	router, err := router.GetRouter()
 	if err != nil {
-		logger.Error("Error initializing router", zap.Error(err))
-		panic(err)
+		logger.Panic("Error initializing router", zap.Error(err))
 	}
 
 	if err = router.Run(":" + constants.RouterPort); err != nil {
-		logger.Error("Error running router", zap.Error(err))
-		panic(err)
+		logger.Panic("Error running router", zap.Error(err))
 	}
 }

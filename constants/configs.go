@@ -17,4 +17,5 @@ const (
 	DevENVPath  = ".env.dev"
 )
 
+// Current environment mode
 const GetEnvModeKey = "ENV_MODE"

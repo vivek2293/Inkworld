@@ -9,7 +9,6 @@ import (
 // GetRouter initializes the router and sets up the routes for the application.
 func GetRouter() (*gin.Engine, error) {
 	router := gin.New()
-
 	v1AuthRouter := router.Group(constants.Version1)
 	{
 		addBookRoutes(v1AuthRouter)

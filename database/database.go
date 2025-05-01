@@ -6,6 +6,8 @@ import (
 	"time"
 
 	_ "github.com/lib/pq"
+	"github.com/vivek2293/Inkworld/utils/logger"
+	"go.uber.org/zap"
 )
 
 // Config is set of configurable parameters of a database.
@@ -56,6 +58,7 @@ func InitDatabase(config DbConfig) error {
 // GetDbClient returns the singleton instance of the database client.
 func GetDbClient() *dbClient {
 	if dbClientInstance == nil {
+		logger.Error("Database client is not initialized")
 		panic("Database client is not initialized")
 	}
 	return dbClientInstance
@@ -104,7 +107,8 @@ func CloseDB() {
 	}
 
 	if err := dbClientInstance.Close(); err != nil {
-		panic(err)
+		logger.Error("Error closing database connection", zap.Error(err))
+		return
 	}
 
 	dbClientInstance = nil

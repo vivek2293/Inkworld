@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strconv"
+	"slices"
 	"strings"
+
+	"github.com/spf13/cast"
 )
 
-func InitEnv(basePath string) error {
+// ReadEnv reads environment variables from a file and sets them in the current process.
+func ReadEnv(basePath string) error {
 	getSanitizedFilePath, err := sanitizeEnvFilePath(basePath)
 	if err != nil {
 		return err
@@ -54,34 +57,19 @@ func sanitizeEnvFilePath(basePath string) (string, error) {
 		".env.prod",
 		".env.dev",
 	}
-
 	// Check if the filename is in the allowed list
-	for _, allowed := range allowedEnvFiles {
-		if basePath == allowed {
-			return basePath, nil
-		}
+	if slices.Contains(allowedEnvFiles, basePath) {
+		return basePath, nil
 	}
 
 	return "", fmt.Errorf("invalid environment file: %s", basePath)
 }
 
 func GetEnv(key string) string {
-	value := os.Getenv(key)
-	if value == "" {
-		panic(fmt.Sprintf("environment variable %s not set", key))
-	}
-	return value
+	return os.Getenv(key)
 }
 
 func GetEnvInt(key string) int {
-	value := os.Getenv(key)
-	if value == "" {
-		panic("environment variable not set")
-	}
-
-	intValue, err := strconv.Atoi(value)
-	if err != nil {
-		panic("error converting environment variable to int")
-	}
+	intValue := cast.ToInt(os.Getenv(key))
 	return intValue
 }

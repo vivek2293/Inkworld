@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"time"
 
+	"go.uber.org/zap"
+
 	"github.com/vivek2293/Inkworld/constants"
 	"github.com/vivek2293/Inkworld/database"
 	router "github.com/vivek2293/Inkworld/routes"
 	"github.com/vivek2293/Inkworld/utils/env"
 	"github.com/vivek2293/Inkworld/utils/logger"
 	timeutils "github.com/vivek2293/Inkworld/utils/time"
-	"go.uber.org/zap"
 
 	"go.uber.org/zap/zapcore"
 )

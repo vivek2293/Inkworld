@@ -2,13 +2,32 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	apiv1 "github.com/vivek2293/Inkworld/api/v1"
 	"github.com/vivek2293/Inkworld/constants"
+	"github.com/vivek2293/Inkworld/utils/env"
+	"github.com/vivek2293/Inkworld/utils/logger"
+	"github.com/vivek2293/Inkworld/utils/middlewares"
 )
 
 // GetRouter initializes the router and sets up the routes for the application.
 func GetRouter() (*gin.Engine, error) {
 	router := gin.New()
+
+	currentMode := env.GetEnv(constants.GetEnvModeKey)
+	switch currentMode {
+	case constants.Production:
+		gin.SetMode(gin.ReleaseMode)
+	default:
+		gin.SetMode(gin.DebugMode)
+	}
+
+	router.Use(middlewares.GinZapLogger(logger.GetLogger()))
+
+	// gin.Recovery() is a middleware that recovers from any panics and writes a 500 if there was one.
+	router.Use(gin.Recovery())
+	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
+
 	v1AuthRouter := router.Group(constants.Version1)
 	{
 		addBookRoutes(v1AuthRouter)

@@ -1,6 +1,8 @@
 package logger
 
-import "go.uber.org/zap"
+import (
+	"go.uber.org/zap"
+)
 
 // Debug - Debug logs a message at Debug level. Disabled in production.
 func Debug(msg string, fields ...zap.Field) {
@@ -40,4 +42,9 @@ func Fatal(msg string, fields ...zap.Field) {
 // Sync - Sync flushes any buffered log entries. It's a good practice to call this before the program exits.
 func Sync() error {
 	return zap.L().Sync()
+}
+
+// GetLogger - GetLogger returns the global logger instance. It's safe for concurrent use.
+func GetLogger() *zap.Logger {
+	return zap.L()
 }

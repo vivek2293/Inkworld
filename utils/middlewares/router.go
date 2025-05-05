@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"go.opentelemetry.io/otel"
 	"go.uber.org/zap"
 )
 
@@ -22,5 +23,21 @@ func GinZapLogger(logger *zap.Logger) gin.HandlerFunc {
 			zap.String("client_ip", c.ClientIP()),
 			zap.String("user_agent", c.Request.UserAgent()),
 		)
+	}
+}
+
+func TracingMiddleware() gin.HandlerFunc {
+	tracer := otel.Tracer("gin-service")
+
+	return func(c *gin.Context) {
+		// Create a new span for the incoming HTTP request
+		ctx, span := tracer.Start(c.Request.Context(), c.Request.Method+" "+c.Request.URL.Path)
+		defer span.End()
+
+		// Inject the context into the request
+		c.Request = c.Request.WithContext(ctx)
+
+		// Process the request
+		c.Next()
 	}
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/vivek2293/Inkworld/utils/env"
 	"github.com/vivek2293/Inkworld/utils/logger"
 	"github.com/vivek2293/Inkworld/utils/middlewares"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
 
 // GetRouter initializes the router and sets up the routes for the application.
@@ -22,11 +23,18 @@ func GetRouter() (*gin.Engine, error) {
 		gin.SetMode(gin.DebugMode)
 	}
 
+	// logger middleware
 	router.Use(middlewares.GinZapLogger(logger.GetLogger()))
+	// tracing middleware
+	router.Use(otelgin.Middleware(""))
+	router.Use(gin.Recovery()) // Recovers from any panics with status code 500
 
-	// gin.Recovery() is a middleware that recovers from any panics and writes a 500 if there was one.
-	router.Use(gin.Recovery())
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
+	router.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
 
 	v1AuthRouter := router.Group(constants.Version1)
 	{

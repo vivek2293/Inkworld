@@ -19,3 +19,4 @@ const (
 
 // Current environment mode
 const GetEnvModeKey = "ENV_MODE"
+const OtlpEndpoint = "OTLP_ENDPOINT"

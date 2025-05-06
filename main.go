@@ -20,6 +20,7 @@ import (
 	router "github.com/vivek2293/Inkworld/routes"
 	"github.com/vivek2293/Inkworld/utils/env"
 	"github.com/vivek2293/Inkworld/utils/logger"
+	"github.com/vivek2293/Inkworld/utils/monitoring"
 	timeutils "github.com/vivek2293/Inkworld/utils/time"
 )
 
@@ -28,9 +29,10 @@ func main() {
 	initEnv()
 	initLogger()
 	defer logger.Sync()
+	initTime()
 	tp := initTracer(ctx)
 	defer tp.Shutdown(ctx)
-	initTime()
+	initMonitoring()
 	initDB()
 	defer database.CloseDB()
 	initRouter()
@@ -105,8 +107,9 @@ func initTracer(ctx context.Context) *trace.TracerProvider {
 		trace.WithResource(
 			resource.NewWithAttributes(
 				semconv.SchemaURL,
-				semconv.ServiceNameKey.String("gin-service"),
+				semconv.ServiceNameKey.String(constants.TracerName),
 				attribute.String("environment", env.GetEnv(constants.GetEnvModeKey)),
+				attribute.String("monitor_name", constants.MonitorName),
 			),
 		),
 	)
@@ -114,6 +117,16 @@ func initTracer(ctx context.Context) *trace.TracerProvider {
 	otel.SetTracerProvider(tp)
 	logger.Info("Tracer provider initialized successfully")
 	return tp
+}
+
+func initMonitoring() {
+	// Register Prometheus metrics
+	err := monitoring.RegisterPrometheus()
+
+	if err != nil {
+		logger.Panic("Error registering Prometheus metrics", zap.Error(err))
+	}
+	logger.Info("Monitoring initialized successfully")
 }
 
 func initTime() {

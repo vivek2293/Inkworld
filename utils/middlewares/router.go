@@ -1,9 +1,12 @@
 package middlewares
 
 import (
+	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/vivek2293/Inkworld/constants"
+	"github.com/vivek2293/Inkworld/utils/monitoring"
 	"go.opentelemetry.io/otel"
 	"go.uber.org/zap"
 )
@@ -27,7 +30,7 @@ func GinZapLogger(logger *zap.Logger) gin.HandlerFunc {
 }
 
 func TracingMiddleware() gin.HandlerFunc {
-	tracer := otel.Tracer("gin-service")
+	tracer := otel.Tracer(constants.TracerName)
 
 	return func(c *gin.Context) {
 		// Create a new span for the incoming HTTP request
@@ -39,5 +42,22 @@ func TracingMiddleware() gin.HandlerFunc {
 
 		// Process the request
 		c.Next()
+	}
+}
+
+func PrometheusMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		start := time.Now()
+
+		c.Next() // process request
+
+		duration := time.Since(start).Seconds()
+		path := c.FullPath() // avoids high cardinality from query strings
+		if path == "" {
+			path = c.Request.URL.Path // fallback
+		}
+
+		monitoring.HttpRequestsTotal.WithLabelValues(c.Request.Method, path, http.StatusText(c.Writer.Status())).Inc()
+		monitoring.HttpRequestDuration.WithLabelValues(c.Request.Method, path).Observe(duration)
 	}
 }

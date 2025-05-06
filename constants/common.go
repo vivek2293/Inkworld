@@ -8,4 +8,7 @@ const (
 
 	Development = "DEV"
 	Production  = "PROD"
+
+	MonitorName = "Backend_Service_Monitor"
+	TracerName  = "Backend_Service_Tracer"
 )

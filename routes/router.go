@@ -27,9 +27,10 @@ func GetRouter() (*gin.Engine, error) {
 	router.Use(middlewares.GinZapLogger(logger.GetLogger()))
 	// tracing middleware
 	router.Use(otelgin.Middleware(""))
+	router.Use(middlewares.PrometheusMiddleware())
 	router.Use(gin.Recovery()) // Recovers from any panics with status code 500
-
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
+
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
